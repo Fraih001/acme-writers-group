@@ -9,7 +9,7 @@ const config = {
 const { db, User, Story } = require('./db');
 const { USERS, STORIES } = require("./seed-data");
 
-(async function seedDatabase() {
+const seedDatabase = async() => {
     try {
         await pgtools.dropdb(config, 'acme-writers-group', function(err, res){
             if(err){
@@ -35,4 +35,10 @@ const { USERS, STORIES } = require("./seed-data");
     catch(e){
         console.warn(`Something went wrong. ${e}`)
     }
-})();
+};
+
+seedDatabase();
+
+module.exports = {
+    seedDatabase
+}

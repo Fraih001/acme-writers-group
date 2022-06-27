@@ -1,7 +1,7 @@
 {
   "name": "acme-writers-group",
   "version": "1.0.0",
-  "description": "",
+  "description": "Before using running this server:    - [Setup postgres locally.](https://www.postgresql.org/download/)   - [Ensure NodeJS is installed.](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)   - Install dependencies using `npm i`.   - Seed database using `npm seed`.",
   "main": "server.js",
   "author": "",
   "license": "ISC",
@@ -31,5 +31,14 @@
     "start:dev": "npm run start-server & npm run build:dev",
     "start-server": "nodemon server --ignore dist --ignore src",
     "seed": "node seeder.js"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fraih001/acme-writers-group.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/Fraih001/acme-writers-group/issues"
+  },
+  "homepage": "https://github.com/Fraih001/acme-writers-group#readme"
 }

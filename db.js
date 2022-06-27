@@ -4,7 +4,7 @@ const db = new Sequelize(process.env.DATABASE_URL || 'postgres://localhost/acme-
 const User = db.define('users', {
     name: {
         type: Sequelize.STRING,
-        allowNull: false
+        // allowNull: false
     },
     bio: {
         type: Sequelize.TEXT
