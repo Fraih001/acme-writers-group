@@ -10,7 +10,6 @@ class App extends Component{
     super();
     this.state = {
       users: [],
-      stories: [],
       userId: ''
     };
 
@@ -30,6 +29,7 @@ class App extends Component{
       window.addEventListener('hashchange', ()=> {
       const userId = window.location.hash.slice(1);
       this.setState({ userId });
+      
       });
     } catch(ex){
       console.log(ex);
@@ -56,13 +56,13 @@ class App extends Component{
     return (
       <div>
         <h1>Acme Writers Group ({ users.length })</h1>
-        <main>
         <button onClick={ createAUser }>Create A Random User</button>
 
+        <main>
           <Users deleteAUser = { deleteAUser } users = { users } userId={ userId }/>
-          { 
-            userId ? <User userId={ userId } /> : null
-          }
+            { 
+              userId ? <User userId={ userId } /> : null
+            }
         </main>
       </div>
     );

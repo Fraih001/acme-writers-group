@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const db = new Sequelize(process.env.DATABASE_URL || 'postgres://localhost/acme-writers-group')
+const db = new Sequelize(process.env.DATABASE_URL || 'postgres://localhost/acme-writers-group' || 'postgres://localhost/acme-writers-group_test')
 
 const User = db.define('users', {
     name: {

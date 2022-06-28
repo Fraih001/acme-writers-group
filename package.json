@@ -18,6 +18,8 @@
     "@faker-js/faker": "^7.3.0",
     "axios": "^0.27.2",
     "babel-loader": "^8.2.5",
+    "chai": "^4.3.6",
+    "mocha": "^10.0.0",
     "nodemon": "^2.0.18",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -25,6 +27,8 @@
     "webpack-cli": "^4.10.0"
   },
   "scripts": {
+    "test": "mocha spec.js",
+    "test:dev": "DATABASE_URL=postgres://localhost/acme-writers-group_test npm run test -- --watch",
     "build": "webpack",
     "build:dev": "npm run build -- --watch --mode=development",
     "start": "node server.js",

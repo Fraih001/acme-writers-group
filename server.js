@@ -51,9 +51,33 @@ app.delete('/api/users/:id', async(req, res, next)=> {
   }
 });
 
-app.post('/api/users/:userId/stories', async(req, res, next)=> {
+app.post('/api/users/:id/stories', async(req, res, next)=> {
   try {
     res.status(201).send(await Story.create(req.body));
+  }
+  catch(ex){
+    next(ex);
+  }
+});
+
+app.get('/api/users/:userId/stories/:id', async(req, res, next)=> {
+  try {
+    const story = await Story.findByPk(req.params.id)
+    res.status(201).send(await story.update(req.body, {
+      where: {userId: req.params.userId}
+    }));
+  }
+  catch(ex){
+    next(ex);
+  }
+});
+
+app.put('/api/users/:userId/stories/:id', async(req, res, next)=> {
+  try {
+    const story = await Story.findByPk(req.params.id)
+    res.status(201).send(await story.update(req.body, {
+      where: {userId: req.params.userId}
+    }));
   }
   catch(ex){
     next(ex);

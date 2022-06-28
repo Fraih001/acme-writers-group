@@ -1,25 +1,28 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { deleteStory, createStory } from './api'
-
+import { deleteStory, createStory, favoriteStory, unfavoriteStory } from './api'
 
 class User extends Component{
   constructor(){
     super();
     this.state = {
       user: {},
-      stories: [] 
+      stories: [],
     };
+
     this.deleteAStory = this.deleteAStory.bind(this);
     this.createAStory = this.createAStory.bind(this);
+    this.favoriteAStory = this.favoriteAStory.bind(this);
+    this.unfavoriteAStory = this.unfavoriteAStory.bind(this);
+
 
   };
-
   async componentDidMount(){
     let response = await axios.get(`/api/users/${this.props.userId}`);
     this.setState({ user: response.data });
     response = await axios.get(`/api/users/${this.props.userId}/stories`);
     this.setState({ stories: response.data });
+
   };
 
   async componentDidUpdate(prevProps){
@@ -35,53 +38,69 @@ class User extends Component{
     await deleteStory(story);
     const stories = this.state.stories.filter(_story => _story.id !== story.id);
     this.setState({ stories });
-    // window.location.hash = '#';
   };
 
   async createAStory(){  
     const story = await createStory(this.props.userId);
     const stories = [...this.state.stories, story]
     this.setState({ stories });
-    // window.location.hash = '#';
   };
 
+  async favoriteAStory(story){
+    await favoriteStory(this.props.userId, story.id);
 
+    // let fav = await favoriteStory(this.props.userId, story.id);
+    // let stories = [fav, ...this.state.stories];
+    let stories = [...this.state.stories]
+
+    // const uniqueNames = stories.filter((val, id, array) => {
+    //   return array.indexOf(val) === id;
+    // });
+    // const uniqueStories = Array.from(new Set(stories))
+    // stories = [...new Set([...this.state.stories])];
+    this.setState({ stories });
+  }
+
+  async unfavoriteAStory(story){
+    await unfavoriteStory(this.props.userId, story.id);
+    const stories = [...this.state.stories];
+    this.setState({ stories })
+  }
 
   render(){
     const { user, stories } = this.state;
-    const { deleteAStory, createAStory } = this;
+    const { deleteAStory, createAStory, favoriteAStory, unfavoriteAStory } = this;
     return (
-
+  
       <div>
         Details for { user.name }
         <p>
           { user.bio }
         </p>
-        <button onClick = { createAStory }>Create a Story!</button>
-
         <ul>
+        <button onClick = { () => createAStory() }>Create a Story!</button>
 
           {
 
             stories.map( story => {
               return (
-                <div>
                 <li key={ story.id }>
                   { story.title }
                   <p>
                   { story.body }
                   </p>
                   <button onClick = { () => deleteAStory(story)} >DELETE</button>
+                  <button id="unfavorite"  onClick = { () => { unfavoriteAStory(story) }}>Un-Favorite</button>
+                  <button id="favorite"  onClick = { () => { favoriteAStory(story); }}>Favorite</button>
+                  
                 </li>
-                </div>
-
-              );
+              )
             })
           }
         </ul>
       </div>
     );
-}
+  }
 }
 
 export default User;

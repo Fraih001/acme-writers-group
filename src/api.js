@@ -12,30 +12,43 @@ function createRandomUser(){
         bio: faker.lorem.paragraph()
     }
 };
+
 let user = createRandomUser();
 const response = await axios.post('/api/users', user);
 return response.data
 }
 
-const createStory = async(user)=>{
-    function createRandomStory(){
-        return {
-            title: faker.random.words(5),
-            body: faker.lorem.paragraphs(5),
-            favorite: faker.datatype.boolean(),
-            userId: Math.ceil(Math.random() * 100)
-        }
-    }
 
-    let story = createRandomStory();
-    const response = await axios.post(`/api/users/${user}/stories/`, story);
-    return response.data
+
+const createStory = async(userId)=>{
+
+    const response = await axios.post(`/api/users/${userId}/stories/`, {
+        title: faker.random.words(5),
+        body: faker.lorem.paragraphs(5),
+        favorite: faker.datatype.boolean(),
+        userId: userId
+    });
+    return response.data;
     }
 
 const deleteStory = async(story)=> {
     return axios.delete(`/api/stories/${story.id}`)
 };
 
+const favoriteStory = async(userId, story)=>{
+    const response = await axios.put(`/api/users/${userId}/stories/${story}`, {
+        favorite: true
+    })
+    return response.data;
+}
+
+const unfavoriteStory = async(userId, story)=>{
+    const response = await axios.put(`/api/users/${userId}/stories/${story}`, {
+        favorite: false
+    })
+    return response.data;
+}
+
 export {
-    deleteUser, createUser, deleteStory, createStory
+    deleteUser, createUser, deleteStory, createStory, favoriteStory, unfavoriteStory
 }
