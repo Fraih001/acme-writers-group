@@ -22,6 +22,25 @@ app.get('/api/users', async(req, res, next)=> {
   }
 });
 
+app.get('/api/stories', async(req, res, next)=> {
+  try {
+    res.send(await Story.findAll());
+  }
+  catch(ex){
+    next(ex);
+  }
+});
+
+app.get('/api/stories/:id', async(req, res, next)=> {
+  try{
+      // const story = await Story.findByPk(req.params.id);
+
+      res.status(204).send(await Story.findByPk(req.params.id));
+  } catch(er) {
+      next(er);
+  }
+});
+
 app.get('/api/users/:id', async(req, res, next)=> {
   try {
     res.send(await User.findByPk(req.params.id));
@@ -84,6 +103,19 @@ app.put('/api/users/:userId/stories/:id', async(req, res, next)=> {
   }
 });
 
+app.put('/api/stories/:id', async(req, res, next)=> {
+  try{
+      const story = await Story.findByPk(req.params.id);
+      await story.update(req.body, {
+        where: {userId: req.params.id}
+      });
+
+      res.sendStatus(204);
+  } catch(er) {
+      next(er);
+  }
+});
+
 app.delete('/api/stories/:id', async(req, res, next)=> {
   try{
       const story = await Story.findByPk(req.params.id);
@@ -108,19 +140,6 @@ app.get('/api/users/:id/stories', async(req, res, next)=> {
     next(ex);
   }
 });
-
-// app.delete('/api/users/:id/stories', async(req, res, next)=> {
-//   try{
-//       const story = await Story.findAll({ include: Story,
-//         where: { userId: req.params.id }
-//     });
-//     await story.destroy();
-
-//       res.sendStatus(204);
-//   } catch(er) {
-//       next(er);
-//   }
-// });
 
 const start = async() => {
 try{

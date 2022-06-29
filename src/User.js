@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { deleteStory, createStory, favoriteStory, unfavoriteStory } from './api'
+import { deleteStory, createStory } from './api'
+import Story from './Story'
 
 class User extends Component{
   constructor(){
@@ -12,9 +13,6 @@ class User extends Component{
 
     this.deleteAStory = this.deleteAStory.bind(this);
     this.createAStory = this.createAStory.bind(this);
-    this.favoriteAStory = this.favoriteAStory.bind(this);
-    this.unfavoriteAStory = this.unfavoriteAStory.bind(this);
-
 
   };
   async componentDidMount(){
@@ -46,30 +44,9 @@ class User extends Component{
     this.setState({ stories });
   };
 
-  async favoriteAStory(story){
-    await favoriteStory(this.props.userId, story.id);
-
-    // let fav = await favoriteStory(this.props.userId, story.id);
-    // let stories = [fav, ...this.state.stories];
-    let stories = [...this.state.stories]
-
-    // const uniqueNames = stories.filter((val, id, array) => {
-    //   return array.indexOf(val) === id;
-    // });
-    // const uniqueStories = Array.from(new Set(stories))
-    // stories = [...new Set([...this.state.stories])];
-    this.setState({ stories });
-  }
-
-  async unfavoriteAStory(story){
-    await unfavoriteStory(this.props.userId, story.id);
-    const stories = [...this.state.stories];
-    this.setState({ stories })
-  }
-
   render(){
     const { user, stories } = this.state;
-    const { deleteAStory, createAStory, favoriteAStory, unfavoriteAStory } = this;
+    const { deleteAStory, createAStory } = this;
     return (
   
       <div>
@@ -79,23 +56,12 @@ class User extends Component{
         </p>
         <ul>
         <button onClick = { () => createAStory() }>Create a Story!</button>
-
+        
           {
+            stories.map( story =>
+              <Story key={ story.id } story={ story } deleteAStory={ deleteAStory } createAStory={ createAStory } />
 
-            stories.map( story => {
-              return (
-                <li key={ story.id }>
-                  { story.title }
-                  <p>
-                  { story.body }
-                  </p>
-                  <button onClick = { () => deleteAStory(story)} >DELETE</button>
-                  <button id="unfavorite"  onClick = { () => { unfavoriteAStory(story) }}>Un-Favorite</button>
-                  <button id="favorite"  onClick = { () => { favoriteAStory(story); }}>Favorite</button>
-                  
-                </li>
-              )
-            })
+            )
           }
         </ul>
       </div>

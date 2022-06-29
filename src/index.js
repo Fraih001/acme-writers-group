@@ -29,7 +29,7 @@ class App extends Component{
       window.addEventListener('hashchange', ()=> {
       const userId = window.location.hash.slice(1);
       this.setState({ userId });
-      
+
       });
     } catch(ex){
       console.log(ex);
@@ -37,7 +37,6 @@ class App extends Component{
   };
 
   async createAUser(){
-  
     let user = await createUser();
     const users = [...this.state.users, user];
     this.setState({ users });
@@ -59,7 +58,7 @@ class App extends Component{
         <button onClick={ createAUser }>Create A Random User</button>
 
         <main>
-          <Users deleteAUser = { deleteAUser } users = { users } userId={ userId }/>
+          <Users deleteAUser = { deleteAUser } users={ users } userId={ userId }/>
             { 
               userId ? <User userId={ userId } /> : null
             }

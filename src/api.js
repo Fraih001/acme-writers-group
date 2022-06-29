@@ -18,8 +18,6 @@ const response = await axios.post('/api/users', user);
 return response.data
 }
 
-
-
 const createStory = async(userId)=>{
 
     const response = await axios.post(`/api/users/${userId}/stories/`, {
