@@ -6,6 +6,7 @@ const { seedDatabase } = require('./seeder')
 
 app.use(express.json());
 app.use('/dist', express.static('dist'));
+app.use('/assets', express.static('assets'));
 
 app.get('/', (req, res)=> res.sendFile(path.join(__dirname, 'index.html')));
 

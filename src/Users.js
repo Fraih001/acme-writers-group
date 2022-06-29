@@ -3,7 +3,7 @@ import React from 'react';
 
 const Users = ({ users, userId, deleteAUser })=> {
   return (
-    <ul>
+    <ul id='userlist'>
       <li className={ !userId ? 'selected': ''}>
         <a href='#'>Users</a>
       </li>

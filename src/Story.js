@@ -3,10 +3,10 @@ import { favoriteStory, unfavoriteStory } from './api'
 import axios from 'axios';
 
 class Story extends Component{
-    constructor(){
-      super();
+    constructor(props){
+      super(props);
       this.state = {
-        story: {},
+        story: this.props.story,
       };
 
       this.favoriteAStory = this.favoriteAStory.bind(this);
@@ -14,22 +14,21 @@ class Story extends Component{
     }
 
 async componentDidMount(){
-    let response = await axios.get(`/api/users/${this.props.story.userId}/stories/${this.props.story.id}`);
+    let response = await axios.get(`/api/users/${this.state.story.userId}/stories/${this.state.story.id}`);
     this.setState({ story: response.data });
 }
 
-async componentDidUpdate(prevProps){
-    if(prevProps.story !== this.props.story){
-        let response = await axios.get(`/api/users/${this.props.story.userId}/stories/${this.props.story.id}`);
-        this.setState({ story: response.data });
-    }
-  };
+// async componentDidUpdate(prevProps){
+//     if(prevProps.story !== this.props.story){
+//         let response = await axios.get(`/api/users/${this.props.story.userId}/stories/${this.props.story.id}`);
+//         this.setState({ story: response.data });
+//     }
+//   };
 
 async favoriteAStory(userId, storyId){
     let story = await favoriteStory(userId, storyId);
     this.setState({ story });
     console.log(this.state.story.favorite)
- 
   }
 
   async unfavoriteAStory(userId, storyId){
@@ -38,23 +37,28 @@ async favoriteAStory(userId, storyId){
     console.log(this.state.story.favorite)
   }
 
+
 render(){ 
     const { unfavoriteAStory, favoriteAStory } = this;
     const { story } = this.state;
+    console.log(this.props.stories)
 
     return(
         
             <li key={ story.id }>
                         { story.title }
-                        <p>
+                        <p id="body">
                         { story.body }
                         </p>
                         <button onClick = { () => this.props.deleteAStory(story)} >DELETE</button>
 
-                        {/* { this.props.story.favorite ?  */}
-                        <button id="unfavorite" onClick = { () => { unfavoriteAStory(story.userId, story.id) }}>Un-Favorite</button> 
+                        { story?.favorite ? 
+                        <button id="unfavorite" onClick = { () => { 
+                        unfavoriteAStory(story.userId, story.id); 
+                        
+                         }}>Un-Favorite</button> :
                         <button id="favorite" onClick = { () => { favoriteAStory(story.userId, story.id) }}>Favorite</button>
-                        {/* }    */}
+                        }   
                         
             </li>
 

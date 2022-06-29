@@ -58,10 +58,12 @@ class App extends Component{
         <button onClick={ createAUser }>Create A Random User</button>
 
         <main>
+   
           <Users deleteAUser = { deleteAUser } users={ users } userId={ userId }/>
             { 
               userId ? <User userId={ userId } /> : null
             }
+    
         </main>
       </div>
     );

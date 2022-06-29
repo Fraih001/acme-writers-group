@@ -10,17 +10,15 @@ class User extends Component{
       user: {},
       stories: [],
     };
-
     this.deleteAStory = this.deleteAStory.bind(this);
     this.createAStory = this.createAStory.bind(this);
-
   };
+
   async componentDidMount(){
     let response = await axios.get(`/api/users/${this.props.userId}`);
     this.setState({ user: response.data });
     response = await axios.get(`/api/users/${this.props.userId}/stories`);
     this.setState({ stories: response.data });
-
   };
 
   async componentDidUpdate(prevProps){
@@ -40,7 +38,7 @@ class User extends Component{
 
   async createAStory(){  
     const story = await createStory(this.props.userId);
-    const stories = [...this.state.stories, story]
+    const stories = [story, ...this.state.stories]
     this.setState({ stories });
   };
 
@@ -49,17 +47,17 @@ class User extends Component{
     const { deleteAStory, createAStory } = this;
     return (
   
-      <div>
+      <div id='storiesdiv'>
         Details for { user.name }
-        <p>
+        <p id='bio'>
           { user.bio }
         </p>
-        <ul>
+        <ul id='storylist'>
         <button onClick = { () => createAStory() }>Create a Story!</button>
         
           {
             stories.map( story =>
-              <Story key={ story.id } story={ story } deleteAStory={ deleteAStory } createAStory={ createAStory } />
+              <Story key={ story.id } stories = { stories } story={ story } deleteAStory={ deleteAStory } createAStory={ createAStory } />
 
             )
           }
