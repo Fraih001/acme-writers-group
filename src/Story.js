@@ -18,13 +18,6 @@ async componentDidMount(){
     this.setState({ story: response.data });
 }
 
-// async componentDidUpdate(prevProps){
-//     if(prevProps.story !== this.props.story){
-//         let response = await axios.get(`/api/users/${this.props.story.userId}/stories/${this.props.story.id}`);
-//         this.setState({ story: response.data });
-//     }
-//   };
-
 async favoriteAStory(userId, storyId){
     let story = await favoriteStory(userId, storyId);
     this.setState({ story });
@@ -41,7 +34,8 @@ async favoriteAStory(userId, storyId){
 render(){ 
     const { unfavoriteAStory, favoriteAStory } = this;
     const { story } = this.state;
-    console.log(this.props.stories)
+    // To add: When a user clicks the "Favorite" button, that story goes to the top of the list
+    // console.log(this.props.stories)
 
     return(
         
